@@ -16,7 +16,7 @@ async function connectToDB() {
 
     const db = client.db("comments");
 
-    return db; 
+    return db;
   } catch (err) {
     console.error(err);
     throw err;
@@ -49,7 +49,22 @@ app.get("/comments", async (req, res) => {
   }
 });
 
-// ADDS COMMENT
+// ROUTES - ADD COMMENT
+app.post("/new-comment", async (req, res) => {
+  try {
+    const data = await connectToDB();
+    const collection = data.collection("comments");
+
+    await collection.insertOne(req.body);
+
+    res.writeHead(201, { "Content-Type": "application/json" })
+    res.end(JSON.stringify({ message: "Comment added successfully" }));
+  } catch (e) {
+    console.error("Error while adding comment:", err);
+    res.writeHead(500, { "Content-Type": "text/plain" });
+    res.end("Internal Server Error");
+  }
+});
 // EDITS COMMENT
 // DELETES COMMENT
 // ADDS REPLY
