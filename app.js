@@ -17,9 +17,9 @@ async function connectToDB() {
     const db = client.db("comments");
 
     return db;
-  } catch (err) {
-    console.error(err);
-    throw err;
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 }
 
@@ -42,8 +42,8 @@ app.get("/comments", async (req, res) => {
 
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(documents));
-  } catch (err) {
-    console.error("Error while processing the GET request:", err);
+  } catch (error) {
+    console.error("Error while processing the GET request:", error);
     res.writeHead(500, { "Content-Type": "text/plain" });
     res.end("Internal Server Error");
   }
@@ -57,19 +57,47 @@ app.post("/new-comment", async (req, res) => {
 
     await collection.insertOne(req.body);
 
-    res.writeHead(201, { "Content-Type": "application/json" })
+    res.writeHead(201, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ message: "Comment added successfully" }));
-  } catch (e) {
-    console.error("Error while adding comment:", err);
+  } catch (error) {
+    console.error("Error while adding comment:", error);
     res.writeHead(500, { "Content-Type": "text/plain" });
     res.end("Internal Server Error");
   }
 });
-// EDITS COMMENT
+
+// ROUTES - EDIT COMMENT
+app.put("/edit-comment:commentId", async (req, res) => {
+  try {
+    const data = await connectToDB();
+    const collection = data.collection("comments");
+
+    const result = await collection.updateOne(
+      { _id: ObjectId(req.params.commentId) },
+      { $set: req.body }
+    );
+
+    if (result.matchedCount > 0) {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Comment updated successfully" }));
+    } else {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Comment not found" }));
+    }
+  } catch (error) {
+    console.error("Error while updating comment:", error);
+    res.writeHead(500, { "Content-Type": "text/plain" });
+    res.end("Internal Server Error");
+  }
+});
+
 // DELETES COMMENT
 // ADDS REPLY
 // EDITS REPLY
 // DELETES REPLY
+
+// UPVOTE
+// DOWNVOTE
 
 // CONNECTION
 app.listen(port, () => {
