@@ -10,6 +10,15 @@ app.get("/", (req, res) => {
   res.sendFile(`${__dirname}/index.html`);
 });
 
+// DISPLAYS COMMENTS AND REPLIES
+
+// ADDS COMMENT
+// EDITS COMMENT
+// DELETES COMMENT
+// ADDS REPLY
+// EDITS REPLY
+// DELETES REPLY
+
 app.listen(port, () => {
   console.log(`App is running on http://localhost:${port}`)
 })
