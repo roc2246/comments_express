@@ -67,7 +67,7 @@ app.post("/new-comment", async (req, res) => {
 });
 
 // ROUTES - EDIT COMMENT
-app.put("/edit-comment:commentId", async (req, res) => {
+app.put("/edit-comment/:commentId", async (req, res) => {
   try {
     const data = await connectToDB();
     const collection = data.collection("comments");
@@ -92,7 +92,7 @@ app.put("/edit-comment:commentId", async (req, res) => {
 });
 
 // ROUTES - DELETES COMMENT
-app.delete("delete-comment:commentId", async (req, res) => {
+app.delete("delete-comment/:commentId", async (req, res) => {
   try {
     const data = await connectToDB();
     const collection = data.collection("comments");
@@ -116,7 +116,7 @@ app.delete("delete-comment:commentId", async (req, res) => {
 });
 
 // ROUTES - ADDS REPLY
-app.post("/new-reply:commentId", async (req, res) => {
+app.post("/new-reply/:commentId", async (req, res) => {
   try {
     const data = await connectToDB();
     const collection = data.collection("comments");
@@ -141,13 +141,13 @@ app.post("/new-reply:commentId", async (req, res) => {
 });
 
 // ROUTES - EDITS REPLY
-app.post("/edit-reply/:commentId", async (req, res) => {
+app.post("/edit-reply/:replyId", async (req, res) => {
   try {
     const data = await connectToDB();
     const collection = data.collection("comments");
 
     const result = await collection.updateOne(
-      { "comments.replies.id": req.params.commentId },
+      { "comments.replies.id": req.params.replyId },
       { $set: req.body }
     );
 
@@ -166,6 +166,29 @@ app.post("/edit-reply/:commentId", async (req, res) => {
 });
 
 // DELETES REPLY
+app.delete("delete-reply/:replyId", async (req, res) => {
+  try {
+    const data = await connectToDB();
+    const collection = data.collection("comments");
+
+    const result = await collection.updateOne(
+      { "comments.replies.id": req.params.replyId },
+      { $pull: { "comments.$.replies": { "id": req.params.replyId } } }
+    );
+
+    if (result.matchedCount > 0) {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Reply deleted successfully" }));
+    } else {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Reply not found" }));
+    }
+  } catch (error) {
+    console.error("Error while deleting reply:", error);
+    res.writeHead(500, { "Content-Type": "text/plain" });
+    res.end("Internal Server Error");
+  }
+});
 
 // UPVOTE
 // DOWNVOTE
