@@ -11,6 +11,12 @@ app.get("/", (req, res) => {
 });
 
 // DISPLAYS COMMENTS AND REPLIES
+app.get("/comments", (req, res) => {
+  const json = {
+    test: "test"
+  }
+  res.send(json)
+})
 
 // ADDS COMMENT
 // EDITS COMMENT
