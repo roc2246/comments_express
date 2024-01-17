@@ -91,15 +91,15 @@ app.put("/edit-comment:commentId", async (req, res) => {
   }
 });
 
-// DELETES COMMENT
+// ROUTES - DELETES COMMENT
 app.delete("delete-comment:commentId", async (req, res) => {
   try {
     const data = await connectToDB();
     const collection = data.collection("comments");
 
-    const result = await collection.deleteOne(
-      { _id: ObjectId(req.params.commentId) }
-    );
+    const result = await collection.deleteOne({
+      _id: ObjectId(req.params.commentId),
+    });
 
     if (result.deletedCount > 0) {
       res.writeHead(200, { "Content-Type": "application/json" });
@@ -108,7 +108,6 @@ app.delete("delete-comment:commentId", async (req, res) => {
       res.writeHead(404, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ message: "Comment not found" }));
     }
-
   } catch (error) {
     console.error("Error while deleting comment:", error);
     res.writeHead(500, { "Content-Type": "text/plain" });
@@ -116,7 +115,30 @@ app.delete("delete-comment:commentId", async (req, res) => {
   }
 });
 
-// ADDS REPLY
+// ROUTES ADDS REPLY
+app.post("/new-reply:commentId", async (req, res) => {
+  try {
+    const data = await connectToDB();
+    const collection = data.collection("comments");
+
+    const result = await collection.updateOne(
+      { _id: ObjectId(req.params.commentId) },
+      { $push: { replies: req.body } }
+    );
+
+    if (result.matchedCount > 0) {
+      res.writeHead(201, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Reply added successfully" }));
+    } else {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Comment not found" }));
+    }
+  } catch (error) {
+    console.error("Error while adding comment:", error);
+    res.writeHead(500, { "Content-Type": "text/plain" });
+    res.end("Internal Server Error");
+  }
+});
 // EDITS REPLY
 // DELETES REPLY
 
