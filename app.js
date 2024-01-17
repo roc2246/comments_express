@@ -2,6 +2,8 @@ const express = require('express')
 const app = express()
 const port = 3000
 
+require('dotenv').config()
+
 // Set up middleware for static files (CSS, JS, images, etc.)
 app.use(express.static("views"));
 
