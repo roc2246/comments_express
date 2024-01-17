@@ -1,0 +1,23 @@
+{
+  "name": "interactive-comments-section-main-express",
+  "version": "1.0.0",
+  "description": "![Design preview for the Interactive comments section coding challenge](./design/desktop-preview.jpg)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roc2246/comments_express.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/roc2246/comments_express/issues"
+  },
+  "homepage": "https://github.com/roc2246/comments_express#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
