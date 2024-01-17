@@ -105,7 +105,6 @@ app.delete("delete-comment:commentId", async (req, res) => {
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ message: "Comment deleted successfully" }));
     } else {
-      // If no comment was found with the given ID
       res.writeHead(404, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ message: "Comment not found" }));
     }
