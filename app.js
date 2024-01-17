@@ -165,7 +165,7 @@ app.post("/edit-reply/:replyId", async (req, res) => {
   }
 });
 
-// DELETES REPLY
+// ROUTES - DELETES REPLY
 app.delete("delete-reply/:replyId", async (req, res) => {
   try {
     const data = await connectToDB();
@@ -190,8 +190,8 @@ app.delete("delete-reply/:replyId", async (req, res) => {
   }
 });
 
-// UPVOTE
-// DOWNVOTE
+// ROUTES - UPVOTE
+// ROUTES - DOWNVOTE
 
 // CONNECTION
 app.listen(port, () => {
