@@ -73,7 +73,7 @@ app.put("/edit-comment/:commentId", async (req, res) => {
     const collection = data.collection("comments");
 
     const result = await collection.updateOne(
-      { _id: ObjectId(req.params.commentId) },
+      { id: req.params.commentId },
       { $set: req.body }
     );
 
@@ -98,7 +98,7 @@ app.delete("delete-comment/:commentId", async (req, res) => {
     const collection = data.collection("comments");
 
     const result = await collection.deleteOne({
-      _id: ObjectId(req.params.commentId),
+      id: req.params.commentId,
     });
 
     if (result.deletedCount > 0) {
@@ -122,7 +122,7 @@ app.post("/new-reply/:commentId", async (req, res) => {
     const collection = data.collection("comments");
 
     const result = await collection.updateOne(
-      { _id: ObjectId(req.params.commentId) },
+      { id: req.params.commentId },
       { $push: { replies: req.body } }
     );
 
