@@ -92,6 +92,31 @@ app.put("/edit-comment:commentId", async (req, res) => {
 });
 
 // DELETES COMMENT
+app.delete("delete-comment:commentId", async (req, res) => {
+  try {
+    const data = await connectToDB();
+    const collection = data.collection("comments");
+
+    const result = await collection.deleteOne(
+      { _id: ObjectId(req.params.commentId) }
+    );
+
+    if (result.deletedCount > 0) {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Comment deleted successfully" }));
+    } else {
+      // If no comment was found with the given ID
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Comment not found" }));
+    }
+
+  } catch (error) {
+    console.error("Error while deleting comment:", error);
+    res.writeHead(500, { "Content-Type": "text/plain" });
+    res.end("Internal Server Error");
+  }
+});
+
 // ADDS REPLY
 // EDITS REPLY
 // DELETES REPLY
