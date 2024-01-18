@@ -92,7 +92,7 @@ app.put("/edit-comment/:commentId", async (req, res) => {
 });
 
 // ROUTES - DELETES COMMENT
-app.delete("delete-comment/:commentId", async (req, res) => {
+app.delete("/delete-comment/:commentId", async (req, res) => {
   try {
     const data = await connectToDB();
     const collection = data.collection("comments");
@@ -166,7 +166,7 @@ app.post("/edit-reply/:replyId", async (req, res) => {
 });
 
 // ROUTES - DELETES REPLY
-app.delete("delete-reply/:replyId", async (req, res) => {
+app.delete("/delete-reply/:replyId", async (req, res) => {
   try {
     const data = await connectToDB();
     const collection = data.collection("comments");
@@ -190,8 +190,109 @@ app.delete("delete-reply/:replyId", async (req, res) => {
   }
 });
 
-// ROUTES - UPVOTE
-// ROUTES - DOWNVOTE
+// ROUTES - UPVOTE COMMENT
+app.put("/upvote-comment/:commentId", async (req, res) =>{
+  try {
+    const data = await connectToDB();
+    const collection = data.collection("comments");
+
+    const result = await collection.updateOne(
+      { "comments.id": req.params.commentId },
+      { $inc: { "comments.$.score": 1 } }
+    );
+
+    if (result.matchedCount > 0) {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Upvoted Successfully" }));
+    } else {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Comment not found" }));
+    }
+  
+  } catch (error) {
+    console.error("Error while updating vote:", error);
+    res.writeHead(500, { "Content-Type": "text/plain" });
+    res.end("Internal Server Error");
+  }
+})
+
+// ROUTES - DOWNVOTE COMMENT
+app.put("/upvote-comment/:commentId", async (req, res) =>{
+  try {
+    const data = await connectToDB();
+    const collection = data.collection("comments");
+
+    const result = await collection.updateOne(
+      { "comments.id": req.params.commentId },
+      { $inc: { "comments.$.score": -1 } }
+    );
+
+    if (result.matchedCount > 0) {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Upvoted Successfully" }));
+    } else {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Comment not found" }));
+    }
+  
+  } catch (error) {
+    console.error("Error while updating vote:", error);
+    res.writeHead(500, { "Content-Type": "text/plain" });
+    res.end("Internal Server Error");
+  }
+})
+
+// ROUTES - UPVOTE REPLY
+app.put("/upvote-reply/:replyId", async (req, res) =>{
+  try {
+    const data = await connectToDB();
+    const collection = data.collection("comments");
+
+    const result = await collection.updateOne(
+      { "comments.replies.id": req.params.replyId },
+      { $inc: { "comments.$.score": 1 } }
+    );
+
+    if (result.matchedCount > 0) {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Upvoted Successfully" }));
+    } else {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "reply not found" }));
+    }
+  
+  } catch (error) {
+    console.error("Error while updating vote:", error);
+    res.writeHead(500, { "Content-Type": "text/plain" });
+    res.end("Internal Server Error");
+  }
+})
+
+// ROUTES - DOWNVOTE REPLY
+app.put("/downvote-reply/:replyId", async (req, res) =>{
+  try {
+    const data = await connectToDB();
+    const collection = data.collection("comments");
+
+    const result = await collection.updateOne(
+      { "comments.replies.id": req.params.replyId },
+      { $inc: { "comments.$.score": -1 } }
+    );
+
+    if (result.matchedCount > 0) {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Upvoted Successfully" }));
+    } else {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "reply not found" }));
+    }
+  
+  } catch (error) {
+    console.error("Error while updating vote:", error);
+    res.writeHead(500, { "Content-Type": "text/plain" });
+    res.end("Internal Server Error");
+  }
+})
 
 // CONNECTION
 app.listen(port, () => {
