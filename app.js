@@ -198,7 +198,7 @@ app.put("/upvote-comment/:commentId", async (req, res) =>{
 
     const result = await collection.updateOne(
       { "comments.id": req.params.commentId },
-      { $inc: { "comments.$.score": 1 } }
+      { $inc: { "comments.score": 1 } }
     );
 
     if (result.matchedCount > 0) {
@@ -224,7 +224,7 @@ app.put("/upvote-comment/:commentId", async (req, res) =>{
 
     const result = await collection.updateOne(
       { "comments.id": req.params.commentId },
-      { $inc: { "comments.$.score": -1 } }
+      { $inc: { "comments.score": -1 } }
     );
 
     if (result.matchedCount > 0) {
@@ -250,7 +250,7 @@ app.put("/upvote-reply/:replyId", async (req, res) =>{
 
     const result = await collection.updateOne(
       { "comments.replies.id": req.params.replyId },
-      { $inc: { "comments.$.score": 1 } }
+      { $inc: { "comments.replies.score": 1 } }
     );
 
     if (result.matchedCount > 0) {
@@ -276,7 +276,7 @@ app.put("/downvote-reply/:replyId", async (req, res) =>{
 
     const result = await collection.updateOne(
       { "comments.replies.id": req.params.replyId },
-      { $inc: { "comments.$.score": -1 } }
+      { $inc: { "comments.replies.score": -1 } }
     );
 
     if (result.matchedCount > 0) {
