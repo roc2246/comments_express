@@ -4,6 +4,10 @@ const app = express();
 const { MongoClient, ObjectId } = require("mongodb");
 require("dotenv").config();
 
+
+// Body parsing middleware
+app.use(express.json());
+
 // CONFIG
 const port = process.env.PORT || 3000;
 
@@ -114,7 +118,7 @@ app.delete("/delete-comment/:commentId", async (req, res) => {
     const collection = data.collection("comments");
 
     const result = await collection.deleteOne({
-      id: req.params.commentId,
+      id: parseInt(req.params.commentId),
     });
 
     if (result.deletedCount > 0) {
