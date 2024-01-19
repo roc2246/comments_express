@@ -93,7 +93,7 @@ app.put("/edit-comment/:commentId", async (req, res) => {
     const collection = data.collection("comments");
 
     const result = await collection.updateOne(
-      { id: req.params.commentId },
+      { id: parseInt(req.params.commentId) },
       { $set: req.body }
     );
 
