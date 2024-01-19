@@ -220,8 +220,8 @@ app.put("/upvote-comment/:commentId", async (req, res) =>{
     const collection = data.collection("comments");
 
     const result = await collection.updateOne(
-      { "comments.id": req.params.commentId },
-      { $inc: { "comments.score": 1 } }
+      { id: parseInt(req.params.commentId) },
+      { $inc: { score : 1 } }
     );
 
     if (result.matchedCount > 0) {
@@ -240,19 +240,19 @@ app.put("/upvote-comment/:commentId", async (req, res) =>{
 })
 
 // ROUTES - DOWNVOTE COMMENT
-app.put("/upvote-comment/:commentId", async (req, res) =>{
+app.put("/downvote-comment/:commentId", async (req, res) =>{
   try {
     const data = await connectToDB();
     const collection = data.collection("comments");
 
     const result = await collection.updateOne(
-      { "comments.id": req.params.commentId },
-      { $inc: { "comments.score": -1 } }
+      { id: parseInt(req.params.commentId) },
+      { $inc: { score: -1 } }
     );
 
     if (result.matchedCount > 0) {
       res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ message: "Upvoted Successfully" }));
+      res.end(JSON.stringify({ message: "Downvoted Successfully" }));
     } else {
       res.writeHead(404, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ message: "Comment not found" }));
