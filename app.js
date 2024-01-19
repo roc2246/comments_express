@@ -14,7 +14,7 @@ async function connectToDB() {
     const client = new MongoClient(url);
     await client.connect();
 
-    const db = client.db("comments");
+    const db = client.db("comment_app");
 
     return db;
   } catch (error) {
@@ -38,6 +38,22 @@ app.get("/comments", async (req, res) => {
   try {
     const data = await connectToDB();
     const collection = data.collection("comments");
+    const documents = await collection.find({}).toArray();
+
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(documents));
+  } catch (error) {
+    console.error("Error while processing the GET request:", error);
+    res.writeHead(500, { "Content-Type": "text/plain" });
+    res.end("Internal Server Error");
+  }
+});
+
+// ROUTES - USERs
+app.get("/users", async (req, res) => {
+  try {
+    const data = await connectToDB();
+    const collection = data.collection("users");
     const documents = await collection.find({}).toArray();
 
     res.writeHead(200, { "Content-Type": "application/json" });
