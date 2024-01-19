@@ -141,8 +141,10 @@ app.post("/new-reply/:commentId", async (req, res) => {
     const data = await connectToDB();
     const collection = data.collection("comments");
 
+    console.log(typeof req.params.commentId)
+
     const result = await collection.updateOne(
-      { id: req.params.commentId },
+      { id: parseInt(req.params.commentId) },
       { $push: { replies: req.body } }
     );
 
@@ -160,15 +162,16 @@ app.post("/new-reply/:commentId", async (req, res) => {
   }
 });
 
-// ROUTES - EDITS REPLY
+// ROUTES - EDIT REPLY
 app.post("/edit-reply/:replyId", async (req, res) => {
   try {
     const data = await connectToDB();
     const collection = data.collection("comments");
 
     const result = await collection.updateOne(
-      { "comments.replies.id": req.params.replyId },
-      { $set: req.body }
+      { "replies.id": parseInt(req.params.replyId) },
+      { $set: { "replies.$[outer].content": req.body.content } },
+      { arrayFilters: [{ "outer.id": parseInt(req.params.replyId) }] }
     );
 
     if (result.matchedCount > 0) {
@@ -176,7 +179,7 @@ app.post("/edit-reply/:replyId", async (req, res) => {
       res.end(JSON.stringify({ message: "Reply edited successfully" }));
     } else {
       res.writeHead(404, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ message: "Comment not found" }));
+      res.end(JSON.stringify({ message: "Reply not found" }));
     }
   } catch (error) {
     console.error("Error while adding comment:", error);
@@ -192,8 +195,8 @@ app.delete("/delete-reply/:replyId", async (req, res) => {
     const collection = data.collection("comments");
 
     const result = await collection.updateOne(
-      { "comments.replies.id": req.params.replyId },
-      { $pull: { "comments.$.replies": { "id": req.params.replyId } } }
+      { "replies.id": parseInt(req.params.replyId) },
+      { $pull: { replies: { id: parseInt(req.params.replyId) } } }
     );
 
     if (result.matchedCount > 0) {
