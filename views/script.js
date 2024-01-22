@@ -14,10 +14,12 @@ function renderReplies(replies) {
     .map(
       (reply) => `
       <div class="comments comments--replies">
-        <p>${reply.content}</p>
-        <p>Score: ${reply.score}</p>
-        <p>Created at: ${reply.createdAt}</p>
-        <p>User: ${reply.user.username}</p>
+        <div class="reply">
+            <p>${reply.content}</p>
+            <p>Score: ${reply.score}</p>
+            <p>Created at: ${reply.createdAt}</p>
+            <p>User: ${reply.user.username}</p>
+        </div>
       </div>
     `
     )
