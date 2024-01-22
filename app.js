@@ -272,8 +272,8 @@ app.put("/upvote-reply/:replyId", async (req, res) =>{
     const collection = data.collection("comments");
 
     const result = await collection.updateOne(
-      { "comments.replies.id": req.params.replyId },
-      { $inc: { "comments.replies.score": 1 } }
+      { "replies.id": parseInt(req.params.replyId) },
+      { $inc: { "replies.$.score": 1 } }
     );
 
     if (result.matchedCount > 0) {
@@ -298,13 +298,13 @@ app.put("/downvote-reply/:replyId", async (req, res) =>{
     const collection = data.collection("comments");
 
     const result = await collection.updateOne(
-      { "comments.replies.id": req.params.replyId },
-      { $inc: { "comments.replies.score": -1 } }
+      { "replies.id": parseInt(req.params.replyId) },
+      { $inc: { "replies.$.score": -1 } }
     );
 
     if (result.matchedCount > 0) {
       res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ message: "Upvoted Successfully" }));
+      res.end(JSON.stringify({ message: "Downvoted Successfully" }));
     } else {
       res.writeHead(404, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ message: "reply not found" }));
