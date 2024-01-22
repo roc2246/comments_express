@@ -1,23 +1,23 @@
 function renderComment(comment) {
   return `
+  <div class="comment">
     <p>${comment.content}</p>
     <p>Score: ${comment.score}</p>
     <p>Created at: ${comment.createdAt}</p>
     <p>User: ${comment.user.username}</p>
-    <!-- Add any additional information you want to display -->
   </div>
     `;
 }
+
 function renderReplies(replies) {
   return replies
     .map(
       (reply) => `
-      <div style="margin-left: 20px;">
+      <div class="comments comments--replies">
         <p>${reply.content}</p>
         <p>Score: ${reply.score}</p>
         <p>Created at: ${reply.createdAt}</p>
         <p>User: ${reply.user.username}</p>
-        <!-- Add any additional information you want to display for replies -->
       </div>
     `
     )
