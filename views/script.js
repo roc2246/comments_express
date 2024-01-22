@@ -8,21 +8,41 @@ function renderComment(comment) {
   </div>
     `;
 }
+function renderReplies(replies) {
+  return replies
+    .map(
+      (reply) => `
+      <div style="margin-left: 20px;">
+        <p>${reply.content}</p>
+        <p>Score: ${reply.score}</p>
+        <p>Created at: ${reply.createdAt}</p>
+        <p>User: ${reply.user.username}</p>
+        <!-- Add any additional information you want to display for replies -->
+      </div>
+    `
+    )
+    .join("");
+}
 
-function renderComments(comments){
-    const container = document.getElementsByClassName('comments');
-      container.innerHTML = comments.map(comment => `
+function renderComments(comments) {
+  const container = document.getElementsByClassName("comments")[0];
+  container.innerHTML = comments
+    .map(
+      (comment) => `
         <div>
           ${renderComment(comment)}
-          ${renderReplies(comment.replies)}
+        ${renderReplies(comment.replies)}
         </div>
-      `).join('');
+      `
+    )
+    .join("");
 }
 
 async function fetchComments() {
   try {
     const response = await fetch("comments");
     const comments = await response.json();
+    console.log(comments);
     renderComments(comments);
   } catch (error) {
     console.error("Error while fetching comments:", error);
@@ -30,6 +50,5 @@ async function fetchComments() {
 }
 
 window.onload = () => {
-    console.log("TEST")
   fetchComments();
 };
