@@ -14,12 +14,14 @@ function renderReplies(replies) {
   return replies
     .map(
       (reply) => `
+      <div class="comments comments--replies">
       <div class="comment comment--reply">
         <img class="comment__avatar" src="${reply.user.image.png}">
         <span class="comment__username">${reply.user.username}</span>
         <span class="comment__createdAt">${reply.createdAt}</span>
         <p class="comment__content">${reply.content}</p>
         <span class="comment__score">Score: ${reply.score}</span>
+      </div>
       </div>
     `
     )
