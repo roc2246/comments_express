@@ -4,6 +4,15 @@ function renderVote(mode) {
   </button>`;
 }
 
+function renderCRUD() {
+  return `<span class="CRUD">
+  <button class="CRUD__btn CRUD__btn--reply">
+    <img class="CRUD__img CRUD__img--reply" src="./images/icon-reply.svg">
+    Reply
+    </button>
+  </span>`;
+}
+
 function renderComment(comment) {
   return `
   <div class="comment">
@@ -14,6 +23,7 @@ function renderComment(comment) {
     <span class="comment__score">${renderVote("plus")}${
     comment.score
   }${renderVote("minus")}</span>
+  ${renderCRUD()}
   </div>
     `;
 }
@@ -30,7 +40,10 @@ function renderReplies(replies) {
         <span class="comment__username">${reply.user.username}</span>
         <span class="comment__createdAt">${reply.createdAt}</span>
         <p class="comment__content">${reply.content}</p>
-        <span class="comment__score">Score: ${reply.score}</span>
+        <span class="comment__score">${renderVote("plus")}${
+            reply.score
+          }${renderVote("minus")}</span>
+        ${renderCRUD()}
       </div>`
         )
         .join("")}
