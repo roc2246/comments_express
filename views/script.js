@@ -28,7 +28,10 @@ function renderCRUD(postType, userType) {
 
 function renderEditForm(postType, userType) {
   if (userType === postType.user.username) {
-    return `<p>TEST</p>`;
+    return `<form class = "comment__edit comment__edit--hidden">
+    <input class="input input--update" type="textbox">
+    <button class="btn btn--update">UPDATE</button>
+    </form>`;
   } else {
     return ``;
   }
