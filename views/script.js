@@ -26,7 +26,7 @@ function renderCRUD(postType, userType) {
   return `<span class="CRUD">${buttons}</span>`;
 }
 
-function renderForm(postType, userType) {
+function renderEditForm(postType, userType) {
   if (userType === postType.user.username) {
     return `<p>TEST</p>`;
   } else {
@@ -41,7 +41,7 @@ function renderComment(comment, userType) {
       <span class="comment__username">${comment.user.username}</span>
       <span class="comment__createdAt">${comment.createdAt}</span>
       <p class="comment__content">${comment.content}</p>
-      ${renderForm(comment, userType)}
+      ${renderEditForm(comment, userType)}
       <span class="comment__score">${renderVote("plus")}${
     comment.score
   }${renderVote("minus")}</span>
@@ -61,7 +61,7 @@ function renderReplies(replies, userType) {
           <span class="comment__username">${reply.user.username}</span>
           <span class="comment__createdAt">${reply.createdAt}</span>
           <p class="comment__content">${reply.content}</p>
-          ${renderForm(reply, userType)}
+          ${renderEditForm(reply, userType)}
           <span class="comment__score">${renderVote("plus")}${
               reply.score
             }${renderVote("minus")}</span>
