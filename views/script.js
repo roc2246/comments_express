@@ -34,11 +34,18 @@ function renderEditForm(postType, userType) {
   }
 }
 
+function renderYouIcon(userType, postType) {
+  return userType === postType.user.username
+    ? `<span class="comment__you">YOU</span>`
+    : ``;
+}
+
 function renderComment(comment, userType) {
   return `
     <div class="comment">
       <img class="comment__avatar" src="${comment.user.image.png}">
       <span class="comment__username">${comment.user.username}</span>
+      ${renderYouIcon(userType, comment)}
       <span class="comment__createdAt">${comment.createdAt}</span>
       <p class="comment__content">${comment.content}</p>
       ${renderEditForm(comment, userType)}
@@ -59,6 +66,7 @@ function renderReplies(replies, userType) {
         <div class="comment comment--reply">
           <img class="comment__avatar" src="${reply.user.image.png}">
           <span class="comment__username">${reply.user.username}</span>
+          ${renderYouIcon(userType, reply)}
           <span class="comment__createdAt">${reply.createdAt}</span>
           <p class="comment__content">${reply.content}</p>
           ${renderEditForm(reply, userType)}
