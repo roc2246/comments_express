@@ -26,6 +26,14 @@ function renderCRUD(postType, userType) {
   return `<span class="CRUD">${buttons}</span>`;
 }
 
+function renderForm(postType, userType) {
+  if (userType === postType.user.username) {
+    return `<p>TEST</p>`;
+  } else {
+    return ``;
+  }
+}
+
 function renderComment(comment, userType) {
   return `
     <div class="comment">
@@ -33,7 +41,10 @@ function renderComment(comment, userType) {
       <span class="comment__username">${comment.user.username}</span>
       <span class="comment__createdAt">${comment.createdAt}</span>
       <p class="comment__content">${comment.content}</p>
-      <span class="comment__score">${renderVote("plus")}${comment.score}${renderVote("minus")}</span>
+      ${renderForm(comment, userType)}
+      <span class="comment__score">${renderVote("plus")}${
+    comment.score
+  }${renderVote("minus")}</span>
       ${renderCRUD(comment, userType)}
     </div>`;
 }
@@ -42,15 +53,22 @@ function renderReplies(replies, userType) {
   if (replies.length !== 0) {
     return `
       <div class="comments comments--replies">
-        <hr class="comments__ruler"/>${replies.map(reply => `
+        <hr class="comments__ruler"/>${replies
+          .map(
+            (reply) => `
         <div class="comment comment--reply">
           <img class="comment__avatar" src="${reply.user.image.png}">
           <span class="comment__username">${reply.user.username}</span>
           <span class="comment__createdAt">${reply.createdAt}</span>
           <p class="comment__content">${reply.content}</p>
-          <span class="comment__score">${renderVote("plus")}${reply.score}${renderVote("minus")}</span>
+          ${renderForm(reply, userType)}
+          <span class="comment__score">${renderVote("plus")}${
+              reply.score
+            }${renderVote("minus")}</span>
           ${renderCRUD(reply, userType)}
-        </div>`).join("")}
+        </div>`
+          )
+          .join("")}
       </div>`;
   } else {
     return "";
@@ -59,10 +77,14 @@ function renderReplies(replies, userType) {
 
 function renderComments(comments, userType) {
   const container = document.getElementsByClassName("comments")[0];
-  container.innerHTML = comments.map(comment => `
+  container.innerHTML = comments
+    .map(
+      (comment) => `
     ${renderComment(comment, userType)}
     ${renderReplies(comment.replies, userType)}
-  `).join("");
+  `
+    )
+    .join("");
 }
 
 async function fetchComments(user) {
