@@ -1,6 +1,6 @@
 function renderVote(mode) {
   return `<button class="vote vote--${mode}">
-  <img class="vote__icon" src="./images/icon-${mode}.svg"/>
+  <img class="vote__icon vote__icon--${mode}" src="./images/icon-${mode}.svg"/>
   </button>`;
 }
 
@@ -28,7 +28,7 @@ function renderCRUD(postType, userType) {
 
 function renderEditForm(postType, userType) {
   if (userType === postType.user.username) {
-    return `<form class = "comment__edit comment__edit--hidden">
+    return `<form class="form form--edit form--hidden">
     <input class="input input--update" type="textbox">
     <button class="btn btn--update">UPDATE</button>
     </form>`;
@@ -39,7 +39,7 @@ function renderEditForm(postType, userType) {
 
 function renderReplyForm(postType, userType) {
   if (userType !== postType.user.username) {
-    return `<form class = "new-reply new-reply--hidden">
+    return `<form class="form form--new-reply form--hidden">
     <input class="input input--reply" type="textbox">
     <button class="btn btn--reply">REPLY</button>
     </form>`;
