@@ -37,6 +37,17 @@ function renderEditForm(postType, userType) {
   }
 }
 
+function renderReplyForm(postType, userType) {
+  if (userType !== postType.user.username) {
+    return `<form class = "new-reply new-reply--hidden">
+    <input class="input input--reply" type="textbox">
+    <button class="btn btn--reply">REPLY</button>
+    </form>`;
+  } else {
+    return ``;
+  }
+}
+
 function renderYouIcon(userType, postType) {
   return userType === postType.user.username
     ? `<span class="comment__you">YOU</span>`
@@ -77,7 +88,9 @@ function renderReplies(replies, userType) {
               reply.score
             }${renderVote("minus")}</span>
           ${renderCRUD(reply, userType)}
-        </div>`
+        </div>
+    ${renderReplyForm(reply, userType)}
+        `
           )
           .join("")}
       </div>`;
@@ -93,6 +106,7 @@ function renderComments(comments, userType) {
       (comment) => `
     ${renderComment(comment, userType)}
     ${renderReplies(comment.replies, userType)}
+    ${renderReplyForm(comment, userType)}
   `
     )
     .join("");
