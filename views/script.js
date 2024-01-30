@@ -126,6 +126,8 @@ window.onload = async () => {
   try {
     const response = await fetch("users");
     const user = await response.json();
+    document.getElementsByClassName("comment__avatar--new-comment")[0].src =
+      user[0].image.png;
     fetchComments(user[0]);
   } catch (error) {
     console.error("Error while fetching user data:", error);
