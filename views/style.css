@@ -1,0 +1,20 @@
+:root {
+  --display-mobile: 375px;
+  --display-desktop: 1440px;
+
+  --colors-primary-moderate-blue: hsl(238, 40%, 52%);
+  --colors-primary-soft-red: hsl(358, 79%, 66%);
+  --colors-primary-light-grayish-blue: hsl(239, 57%, 85%);
+  --colors-primary-pale-red: hsl(357, 100%, 86%);
+  
+  --colors-neutral-dark-blue: hsl(212, 24%, 26%);
+  --colors-neutral-grayish-blue: hsl(211, 10%, 45%);
+  --colors-neutral-light-gray: hsl(223, 19%, 93%);
+  --colors-neutral-very-light-gray: hsl(228, 33%, 97%);
+  --colors-neutral-white: hsl(0, 0%, 100%);
+
+  --font-size: 16px;
+  --font-weight-light: 400;
+  --font-weight-neutral: 500;
+  --font-weight-bold: 700;
+}
