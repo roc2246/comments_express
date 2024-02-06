@@ -82,7 +82,10 @@ function renderReplies(replies, userType) {
           <span class="comment__username">${reply.user.username}</span>
           ${renderYouIcon(userType, reply)}
           <span class="comment__createdAt">${reply.createdAt}</span>
-          <p class="comment__content">${reply.content}</p>
+          <p class="comment__content">
+          <span class="comment__replyingTo"@${reply.replyingTo}</span>
+          ${reply.content}
+          </p>
           ${renderEditForm(reply, userType)}
           <span class="comment__score">${renderVote("plus")}${
               reply.score
