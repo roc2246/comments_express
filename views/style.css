@@ -50,7 +50,7 @@ button {
   background-color: var(--colors-neutral-white);
 
   display: grid;
-  grid-template-columns: 40px auto auto;
+  grid-template-columns: 40px 120px auto;
   .comment__avatar {
     grid-column: 1/2;
 
